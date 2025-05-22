@@ -25,7 +25,9 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage>{
                     TextButton(
                         onPressed: (){
                             Navigator.pop(context);
-                            _scannerController.reset(); // Re-enable scanning
+                            Future.delayed(const Duration(seconds: 2), (){
+                                _scannerController.reset(); // Re-enable scanning
+                            });
                         },
                         child: const Text('OK'))
                 ],

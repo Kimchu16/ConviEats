@@ -15,6 +15,7 @@ class ScannerController {
     onScan(code);
   }
 
+  // Resets timer
   void reset() {
     _hasScanned = false;
   }
