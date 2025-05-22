@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'scanner_controller.dart';
-import '/core/services/product_lookup.dart';
+import '/core/services/product_repository.dart';
 
 class BarcodeScannerPage extends StatefulWidget {
   const BarcodeScannerPage({super.key});
@@ -14,7 +14,10 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage>{
     final ScannerController _scannerController = ScannerController();
 
     void _handleScan(String code){
-        final info = ProductLookup.getInfo(code);
+        final product = ProductRepository.getByBarcode(code);
+        final info = product != null
+            ? '${product.name}\n\nIngredients: ${product.ingredients}\nAllergens: ${product.allergens.join(', ')}'
+            : 'Product not found.';
 
         showDialog(
             context: context,
