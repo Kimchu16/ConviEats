@@ -19,6 +19,29 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage>{
             ? '${product.name}\n\nIngredients: ${product.ingredients}\nAllergens: ${product.allergens.join(', ')}'
             : 'Product not found.';
 
+        /*
+        if (product != null) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => ProductDetailsPage(product: product),
+                ),
+            ).then((_) {
+                // Reset scanner after returning from the details screen
+                Future.delayed(const Duration(seconds: 2), () {
+                    _scannerController.reset();
+                });
+            });
+        } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Product not found.')),
+            );
+            Future.delayed(const Duration(seconds: 2), () {
+                _scannerController.reset();
+            });
+        }
+        */ //Use this later for when UI frontend page is established and delete showDialog + info var
+
         showDialog(
             context: context,
             builder: (_) => AlertDialog(
