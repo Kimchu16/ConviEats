@@ -1,0 +1,37 @@
+# ───── Dart & Flutter ─────
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+# ───── Android ─────
+android/.gradle/
+android/captures/
+android/key.properties
+*.apk
+*.aar
+.gradle/
+*.lock
+
+# ───── IDEs ─────
+.idea/
+.vscode/
+*.iml
+
+# ───── System junk ─────
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.tmp
+
+# ───── Optional: Exclude unused platforms ─────
+ios/
+linux/
+macos/
+windows/
+web/
