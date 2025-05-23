@@ -1,3 +1,12 @@
+/*
+Handles storing and retrieving bookmarked (favorited) products in the Isar database.
+================================================
+- save() to insert/update a SavedProduct.
+- getAll() to list all saved items.
+- deleteById() to remove a saved product by ID.
+- clear() to remove all saved items.
+=================================================
+*/
 import 'package:isar/isar.dart';
 import '../models/saved_product.dart';
 import 'local_database_service.dart';

@@ -1,6 +1,11 @@
+/*
+Fake product database. local static list of known products with barcodes, ingredients, and allergens.
+===========================================================
+getByBarcode(String code) fetches a product by its barcode.
+===========================================================
+*/
 import '../models/product.dart';
 import 'package:collection/collection.dart';
-
 
 class ProductRepository {
   static final List<Product> _products = [
