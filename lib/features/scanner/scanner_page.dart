@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'scanner_controller.dart';
 import '/core/services/product_repository.dart';
+import '/core/models/scanned_product.dart';
+import '/core/services/scan_history_repository.dart';
+
 
 class BarcodeScannerPage extends StatefulWidget {
   const BarcodeScannerPage({super.key});
@@ -13,11 +16,22 @@ class BarcodeScannerPage extends StatefulWidget {
 class _BarcodeScannerPageState extends State<BarcodeScannerPage>{
     final ScannerController _scannerController = ScannerController();
 
-    void _handleScan(String code){
+    void _handleScan(String code) async{
         final product = ProductRepository.getByBarcode(code);
+
+        if (product != null){
+          //Save to scan-history
+          await ScanHistoryRepository.save(
+            ScannedProduct()
+            ..product = product
+            ..scannedAt = DateTime.now(),
+          );
+        }
+        
         final info = product != null
             ? '${product.name}\n\nIngredients: ${product.ingredients}\nAllergens: ${product.allergens.join(', ')}'
             : 'Product not found.';
+        
 
         /*
         if (product != null) {
