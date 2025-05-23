@@ -16,6 +16,10 @@ class ProductRepository {
       ingredients: 'Milk, Banana Flavoring, Sugar',
       allergens: ['Milk'],
     ),
+    Product(name: '오레오 오즈',
+      barcode: '8801037065619',
+      ingredients: 'Corn Cereal, Vegetable Oils, Cocoa Powder, Marshmallow, Salt',
+      allergens: ['Wheat', 'Soy', 'Milk', 'Pork'])
   ];
 
   static Product? getByBarcode(String barcode) {
