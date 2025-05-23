@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'scanner_controller.dart';
 import '/core/services/product_repository.dart';
+import '/core/models/scanned_product.dart';
+import '/core/services/scan_history_repository.dart';
+import '/core/services/saved_products_repository.dart';
+import '/core/models/saved_product.dart';
+import '/core/models/product.dart';
+
+
+
 
 class BarcodeScannerPage extends StatefulWidget {
   const BarcodeScannerPage({super.key});
@@ -13,11 +21,23 @@ class BarcodeScannerPage extends StatefulWidget {
 class _BarcodeScannerPageState extends State<BarcodeScannerPage>{
     final ScannerController _scannerController = ScannerController();
 
-    void _handleScan(String code){
+    void _handleScan(String code) async{
+
         final product = ProductRepository.getByBarcode(code);
+
+        if (product != null){
+          //Save to scan-history
+          await ScanHistoryRepository.save(
+            ScannedProduct()
+            ..product = product
+            ..scannedAt = DateTime.now(),
+          );
+        }
+
         final info = product != null
             ? '${product.name}\n\nIngredients: ${product.ingredients}\nAllergens: ${product.allergens.join(', ')}'
             : 'Product not found.';
+        
 
         /*
         if (product != null) {
@@ -49,17 +69,42 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage>{
                 content: Text('Code: $code\n\n$info'),
                 actions: [
                     TextButton(
-                        onPressed: (){
-                            Navigator.pop(context);
-                            Future.delayed(const Duration(seconds: 2), (){
-                                _scannerController.reset(); // Re-enable scanning
-                            });
+                      onPressed: (){
+                        if (!mounted) return;
+                          Navigator.pop(context);
+                          Future.delayed(const Duration(seconds: 2), (){
+                            _scannerController.reset(); // Re-enable scanning
+                          });
                         },
-                        child: const Text('OK'))
+                      child: const Text('OK'),
+                    ),
+                    if (product != null)
+                      TextButton(
+                         onPressed: () async {
+                          await _saveProduct(product);
+                          if (!mounted) return;
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Product saved!')),
+                          );
+                          Future.delayed(const Duration(seconds: 2), () {
+                            _scannerController.reset();
+                          });
+                        },
+                        child: const Text('Save Product'),
+                      ),
                 ],
             ),
         );
     }
+
+    Future<void> _saveProduct(Product product) async {
+      await SavedProductsRepository.save(
+        SavedProduct()  
+        ..product = product,
+      );
+    }
+
 
     @override
     Widget build(BuildContext context) {
