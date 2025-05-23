@@ -1,3 +1,11 @@
+/*
+Stores and retrieves the history of scanned products
+=================================================
+- save() to log a scan.
+- getAll() to retrieve scan history (sorted by most recent).
+- clear() to delete all history.
+=================================================
+*/
 import 'package:isar/isar.dart';
 import '../models/scanned_product.dart';
 import 'local_database_service.dart';

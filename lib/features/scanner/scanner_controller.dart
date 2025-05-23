@@ -1,10 +1,13 @@
+/*
+Controls cooldowns and prevents the scanner from spamming the callback.
+*/
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class ScannerController {
   final MobileScannerController scanner = MobileScannerController();
   bool _hasScanned = false;
 
-  /// Called when barcode is detected from the scanner.
+  // Called when barcode is detected from the scanner.
   void onDetect(BarcodeCapture capture, Function(String code) onScan) {
     if (_hasScanned) return;
 
@@ -15,7 +18,7 @@ class ScannerController {
     onScan(code);
   }
 
-  // Resets timer
+  // Re-enables scanning after a manual or timed cooldown.
   void reset() {
     _hasScanned = false;
   }
