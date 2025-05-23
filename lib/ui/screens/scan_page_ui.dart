@@ -77,6 +77,8 @@ class _ScanPageUIState extends State<ScanPageUI> {
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
+        backgroundColor: (Colors.grey[800] ?? Colors.grey).withAlpha(204),
+        iconColor: (Colors.white),
       ),
     );
   }
