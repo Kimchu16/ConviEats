@@ -13,6 +13,7 @@ class Product {
   late String barcode;
   late String ingredients;
   late List<String> allergens;
+  late String imageAssetPath;
 
   Product();
 }
