@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'features/scanner/scanner_page.dart';
+import 'core/services/local_database_service.dart';
 
-void main() {
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalDatabaseService.init(); // ← open the database
   runApp(const MyApp());
 }
 
