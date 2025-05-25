@@ -8,12 +8,12 @@ part 'product.g.dart';
 
 @embedded
 class Product {
-  Id id = Isar.autoIncrement;
   late String name;
   late String barcode;
   late String ingredients;
   late List<String> allergens;
   late String imageAssetPath;
+  late DateTime? expirationDate;
 
   Product();
 }
