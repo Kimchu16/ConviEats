@@ -6,9 +6,8 @@ import 'package:isar/isar.dart';
 
 part 'product.g.dart';
 
-@collection
+@embedded
 class Product {
-  Id id = Isar.autoIncrement;
   late String name;
   late String barcode;
   late String ingredients;
