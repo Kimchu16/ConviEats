@@ -1,9 +1,14 @@
-import 'package:convi_eats/core/services/product_repository.dart';
 import 'package:flutter/material.dart';
+
 import 'package:convi_eats/core/models/product.dart';
+import 'package:convi_eats/core/models/scanned_product.dart';
+import 'package:convi_eats/core/services/scan_history_repository.dart';
+import 'package:convi_eats/core/services/product_repository.dart';
+
 import 'package:convi_eats/features/scanner/scanner_view.dart';
-import 'package:convi_eats/ui/widgets/app_bottom_nav_bar.dart';
+
 import 'package:convi_eats/ui/widgets/product_info_card.dart';
+
 
 class ScanPageUI extends StatefulWidget {
   const ScanPageUI({super.key});
@@ -13,33 +18,31 @@ class ScanPageUI extends StatefulWidget {
 }
 
 class _ScanPageUIState extends State<ScanPageUI> {
-  int _selectedIndex = 0;
   Product? _scannedProduct;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    // TODO: Handle navigation if needed
-  }
-
-  void _handleScanComplete(String barcode) {
+  void _handleScanComplete(String barcode) async {
     debugPrint('Scanned barcode: $barcode');
 
     // Lookup product in repository
     final product = ProductRepository.getByBarcode(barcode);
 
     setState(() {
-      _scannedProduct = product; // update the UI with the product info
+      _scannedProduct = product;
     });
 
     if (product == null) {
-      // You might want to show a message if product not found
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('No product found for barcode $barcode')),
       );
+      return;
     }
+
+    // ✅ Save scanned product to history
+    final scannedProduct = ScannedProduct()
+      ..product = product
+      ..scannedAt = DateTime.now();
+
+    await ScanHistoryRepository.save(scannedProduct);
   }
 
   @override
@@ -73,10 +76,6 @@ class _ScanPageUIState extends State<ScanPageUI> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: AppBottomNavBar(
-        currentIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
       ),
     );
   }
