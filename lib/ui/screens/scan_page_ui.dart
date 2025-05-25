@@ -68,7 +68,7 @@ class _ScanPageUIState extends State<ScanPageUI> {
           // Product info fills the rest of the screen
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
               child: ProductInfoCard(product: _scannedProduct!),
             ),
           ),

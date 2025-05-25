@@ -14,21 +14,25 @@ class ProductRepository {
       ..barcode = '8801037065619'
       ..ingredients = 'Corn Cereal, Vegetable Oils, Cocoa Powder, Marshmallow, Salt'
       ..allergens = ['Wheat', 'Soy', 'Milk', 'Pork']
-      ..imageAssetPath = 'assets/images/oreo_icon.jpg',
+      ..imageAssetPath = 'assets/images/oreo_icon.jpg'
+      ..expirationDate = DateTime(2026, 02, 10),
 
     Product()
       ..name = 'Buldak Triangle Kimchi Gimbap'
       ..barcode = '8801111222333'
       ..ingredients = 'Rice, Seaweed, Spicy Chicken Sauce'
       ..allergens = ['Wheat', 'Soy', 'Chicken']
-      ..imageAssetPath = 'assets/images/oreo_icon.jpg',
+      ..imageAssetPath = 'assets/images/oreo_icon.jpg'
+      ..expirationDate = DateTime(2025, 06, 04),
   
     Product()
       ..name = 'Banana Milk'
       ..barcode = '8809876543210'
       ..ingredients = 'Milk, Banana Flavoring, Sugar'
       ..allergens = ['Milk']
-      ..imageAssetPath = 'assets/images/oreo_icon.jpg',
+      ..imageAssetPath = 'assets/images/oreo_icon.jpg'
+      ..expirationDate = DateTime(2025, 06, 03),
+
   ];
 
   static Product? getByBarcode(String barcode) {
