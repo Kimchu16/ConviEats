@@ -106,12 +106,17 @@ class _HistoryPageState extends State<HistoryPage> {
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                              ),
+                              backgroundColor: Colors.transparent, // Allows custom rounded background
                               builder: (context) => Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: ProductInfoCard(product: product),
+                                padding: const EdgeInsets.only(top: 32), // Space from top of screen
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+                                  child: Container(
+                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    padding: const EdgeInsets.all(20),
+                                    child: ProductInfoCard(product: product),
+                                  ),
+                                ),
                               ),
                             );
                           },
