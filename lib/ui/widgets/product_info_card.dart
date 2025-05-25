@@ -78,6 +78,7 @@ class _ProductInfoCardState extends State<ProductInfoCard> {
                               style: textTheme.headlineMedium?.copyWith(color: Colors.lightGreen[700]),
                             ),
                             IconButton(
+                              iconSize: 32,
                               icon: Icon(
                                 _isSaved ? Icons.star : Icons.star_border,
                                 color: _isSaved ? Colors.yellow[700] : Colors.grey,
@@ -116,9 +117,9 @@ class _ProductInfoCardState extends State<ProductInfoCard> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      _buildInfoSection('Expiration Date: ${widget.product.expirationDate != null ? _formatDate(widget.product.expirationDate!) : 'DD.MM.YY'}', Colors.redAccent[100]),
+                      _buildInfoSection('Expiration Date: ${widget.product.expirationDate != null ? _formatDate(widget.product.expirationDate!) : 'DD.MM.YY'}', Colors.red[200]),
                       const SizedBox(height: 16),
-                      _buildInfoSection('Ingredients', Colors.lightGreen[300]),
+                      _buildInfoSection('Ingredients', Colors.lightGreen[200]),
                       const SizedBox(height: 8),
                       ...ingredientList.map((ingredient) {
                         return Container(

@@ -37,7 +37,6 @@ class _ScanPageUIState extends State<ScanPageUI> {
       return;
     }
 
-    // ✅ Save scanned product to history
     final scannedProduct = ScannedProduct()
       ..product = product
       ..scannedAt = DateTime.now();
