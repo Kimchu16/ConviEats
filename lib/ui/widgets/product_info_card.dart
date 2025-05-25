@@ -115,7 +115,7 @@ class ProductInfoCard extends StatelessWidget {
                             ],
                           ),
                         );
-                      }).toList(),
+                      }),
                     ],
                   ),
                 ),

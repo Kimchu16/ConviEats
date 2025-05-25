@@ -18,16 +18,7 @@ class ScanPageUI extends StatefulWidget {
 }
 
 class _ScanPageUIState extends State<ScanPageUI> {
-  int _selectedIndex = 0;
   Product? _scannedProduct;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    // TODO: Handle navigation if needed
-  }
 
   void _handleScanComplete(String barcode) async {
     debugPrint('Scanned barcode: $barcode');
