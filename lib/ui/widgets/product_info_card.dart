@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:convi_eats/core/models/product.dart';
+import 'package:convi_eats/core/models/saved_product.dart';
+import 'package:convi_eats/core/services/saved_products_repository.dart';
 import 'dart:io';
 
-class ProductInfoCard extends StatelessWidget {
+class ProductInfoCard extends StatefulWidget {
   final Product product;
 
   const ProductInfoCard({required this.product, super.key});
 
   @override
+  State<ProductInfoCard> createState() => _ProductInfoCardState();
+}
+
+class _ProductInfoCardState extends State<ProductInfoCard> {
+  bool _isSaved = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfSaved();
+  }
+
+  Future<void> _checkIfSaved() async {
+    final savedItems = await SavedProductsRepository.getAll();
+    final isSaved = savedItems.any((item) => item.product.barcode == widget.product.barcode);
+    setState(() {
+      _isSaved = isSaved;
+    });
+  }
+
+  Future<void> _toggleSave() async {
+    if (_isSaved) {
+      final savedItems = await SavedProductsRepository.getAll();
+      final itemToRemove = savedItems.firstWhere((item) => item.product.barcode == widget.product.barcode);
+      await SavedProductsRepository.remove(itemToRemove.id);
+    } else {
+      final savedProduct = SavedProduct()..product = widget.product;
+      await SavedProductsRepository.save(savedProduct);
+    }
+
+    setState(() {
+      _isSaved = !_isSaved;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final imageWidget = _buildImage(product.imageAssetPath);
+    final imageWidget = _buildImage(widget.product.imageAssetPath);
     final textTheme = Theme.of(context).textTheme;
 
     final halal = 'xx';
@@ -17,7 +55,7 @@ class ProductInfoCard extends StatelessWidget {
     final grams = 'xx';
     final calories = 'xx';
 
-    final ingredientList = product.ingredients.split(',').map((e) => e.trim()).toList();
+    final ingredientList = widget.product.ingredients.split(',').map((e) => e.trim()).toList();
 
     return SafeArea(
       child: Padding(
@@ -26,17 +64,29 @@ class ProductInfoCard extends StatelessWidget {
           builder: (context, constraints) {
             return SingleChildScrollView(
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Center(
-                        child: Text(
-                          product.name,
-                          style: textTheme.headlineMedium?.copyWith(color: Colors.lightGreen[700]),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              widget.product.name,
+                              style: textTheme.headlineMedium?.copyWith(color: Colors.lightGreen[700]),
+                            ),
+                            IconButton(
+                              iconSize: 32,
+                              icon: Icon(
+                                _isSaved ? Icons.star : Icons.star_border,
+                                color: _isSaved ? Colors.yellow[700] : Colors.grey,
+                              ),
+                              onPressed: _toggleSave,
+                              tooltip: _isSaved ? 'Unsave' : 'Save',
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -67,37 +117,9 @@ class ProductInfoCard extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent[100],
-                          borderRadius: BorderRadius.circular(8), // Rounded corners here
-                        ),
-                        child: Text(
-                          'Expiration Date: ${product.expirationDate != null ? _formatDate(product.expirationDate!) : 'DD.MM.YY'}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black45
-                          ),
-                        ),
-                      ),
+                      _buildInfoSection('Expiration Date: ${widget.product.expirationDate != null ? _formatDate(widget.product.expirationDate!) : 'DD.MM.YY'}', Colors.red[200]),
                       const SizedBox(height: 16),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.lightGreen[300],
-                          borderRadius: BorderRadius.circular(8), // Rounded corners here
-                        ),
-                        child: Text(
-                          'Ingredients',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black45
-                          ),
-                        ),
-                      ),
+                      _buildInfoSection('Ingredients', Colors.lightGreen[200]),
                       const SizedBox(height: 8),
                       ...ingredientList.map((ingredient) {
                         return Container(
@@ -129,17 +151,10 @@ class ProductInfoCard extends StatelessWidget {
 
   Widget? _buildImage(String path) {
     if (path.isEmpty) return null;
-
     if (path.startsWith('/')) {
-      return Image.file(
-        File(path),
-        fit: BoxFit.cover,
-      );
+      return Image.file(File(path), fit: BoxFit.cover);
     } else {
-      return Image.asset(
-        path,
-        fit: BoxFit.cover,
-      );
+      return Image.asset(path, fit: BoxFit.cover);
     }
   }
 
@@ -148,5 +163,23 @@ class ProductInfoCard extends StatelessWidget {
     final month = date.month.toString().padLeft(2, '0');
     final year = date.year.toString().substring(2);
     return '$day.$month.$year';
+  }
+
+  Widget _buildInfoSection(String text, Color? color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontWeight: FontWeight.normal,
+          color: Colors.black45,
+        ),
+      ),
+    );
   }
 }
