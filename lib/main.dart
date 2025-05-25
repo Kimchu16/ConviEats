@@ -1,8 +1,11 @@
-import 'package:convi_eats/ui/screens/scan_page_ui.dart';
 import 'package:flutter/material.dart';
 import 'core/services/local_database_service.dart';
-import 'package:convi_eats/ui/screens/history_page_ui.dart';
+
 import 'package:convi_eats/ui/widgets/app_bottom_nav_bar.dart';
+
+import 'package:convi_eats/ui/screens/saved_page_ui.dart';
+import 'package:convi_eats/ui/screens/history_page_ui.dart';
+import 'package:convi_eats/ui/screens/scan_page_ui.dart';
 
 /*
 void main() async{
@@ -55,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static final List<Widget> _pages = <Widget>[
     ScanPageUI(),
     HistoryPage(),
-    Center(child: Text('Saved page coming soon!')), // placeholder for Saved
+    SavedPage(),
   ];
 
   void _onItemTapped(int index) {
