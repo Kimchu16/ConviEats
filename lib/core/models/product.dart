@@ -6,7 +6,7 @@ import 'package:isar/isar.dart';
 
 part 'product.g.dart';
 
-@embedded
+@collection
 class Product {
   Id id = Isar.autoIncrement;
   late String name;
@@ -14,6 +14,7 @@ class Product {
   late String ingredients;
   late List<String> allergens;
   late String imageAssetPath;
+  late DateTime? expirationDate;
 
   Product();
 }
