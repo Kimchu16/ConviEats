@@ -32,6 +32,14 @@ class ProductRepository {
       ..allergens = ['Milk']
       ..imageAssetPath = 'assets/images/oreo_icon.jpg'
       ..expirationDate = DateTime(2025, 06, 03),
+    
+     Product()
+      ..name = 'Shin Ramyeon'
+      ..barcode = '8801043014809'
+      ..ingredients = 'Wheat Noodles, Spicy Soup Base, Dried Vegetables'
+      ..allergens = ['Wheat', 'Soy', 'Shellfish']
+      ..imageAssetPath = 'assets/images/81spphKc0BL.jpg'
+      ..expirationDate = DateTime(2025, 11, 03),
 
   ];
 
