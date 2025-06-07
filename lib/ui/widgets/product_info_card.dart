@@ -50,10 +50,10 @@ class _ProductInfoCardState extends State<ProductInfoCard> {
     final imageWidget = _buildImage(widget.product.imageAssetPath);
     final textTheme = Theme.of(context).textTheme;
 
-    final halal = 'xx';
-    final meat = 'xx';
-    final grams = 'xx';
-    final calories = 'xx';
+    final halal = 'No';
+    final meat = 'Yes';
+    final grams = '120';
+    final calories = '500';
 
     final ingredientList = widget.product.ingredients.split(',').map((e) => e.trim()).toList();
 
@@ -133,7 +133,7 @@ class _ProductInfoCardState extends State<ProductInfoCard> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(ingredient),
-                              const Text('xx g'), // Placeholder grams
+                              const Text('120 g'), // Placeholder grams
                             ],
                           ),
                         );
